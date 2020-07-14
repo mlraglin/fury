@@ -57,16 +57,18 @@ def latlong_coordinates(lat, lon):
 
 
 ###############################################################################
-# Let's use this function to place some sphere actors on several locations
+# Let's use this function to place some sphere actors on several cities
 # around the Earth.
 
-locationone = latlong_coordinates(39.1636505, -86.525757) #bloomington
-locationtwo = latlong_coordinates()
-locationthree = latlong_coordinates()
+locationone = latlong_coordinates(40.730610, -73.935242) #new york city, us
+locationtwo = latlong_coordinates(39.916668, 116.383331) #beijing, china
+locationthree = latlong_coordinates(48.864716, 2.349014) #paris, france
+locationfour = latlong_coordinates(-34.603722, -58.381592) #buenos aires, argentina
+locationfive = latlong_coordinates(5.550000, -0.020000) #accra, ghana
 
-centers = np.array([[*locationone, *locationtwo, *locationthree]])
+centers = np.array([[*locationone, *locationtwo, *locationthree, *locationfour, *locationfive]])
 radius = 0.005
-colors = np.random.rand(1, 3)
+colors = np.random.rand(1, 5)
 sphere_actor = actor.sphere(centers, colors, radius)
 scene.add(sphere_actor)
 
