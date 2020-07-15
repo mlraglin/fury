@@ -641,6 +641,7 @@ def prim_octagonalprism():
 
 def prim_frustum():
     """Return vertices and triangle for a square frustum prism.
+
     Returns
     -------
     vertices: ndarray
@@ -671,3 +672,43 @@ def prim_frustum():
                          [0, 5, 4]], dtype='u8')
     triangles = fix_winding_order(vertices, triangles, clockwise=True)
     return vertices, triangles
+
+
+def prim_torus(roundness=(1,1)):
+    """Provide vertices and triangles of a torus.
+
+    Returns
+    -------
+    vertices: ndarray
+        vertices coords that composed the torus
+    triangles: ndarray
+        triangles that composed the torus
+    """
+
+    sphere_verts, sphere_triangles = prim_sphere(sphere_name)
+    _, sphere_phi, sphere_theta = cart2sphere(*sphere_verts.T)
+
+    def c_func(w, m):
+        #Calculates a constant c for torus triangluation
+        return np.sign(np.cos(w))*np.abs(np.cos(w))**m
+
+
+    def s_func(w, m):
+        #Calculates a constant s for torus triangulation
+        return np.sign(np.sin(w))*np.abs(np.sin(w))**m
+
+
+    def c_t_func(w, m):
+        return 2+c_func(w, m)
+
+
+    phi, theta = roundness
+
+    a_radius = 2
+    x = c_t_func(sphere_theta, theta) * c_func(sphere_phi, phi)
+    y = c_t_func(sphere_theta, theta) * s_func(sphere_phi, phi)
+    z = s_func(sphere_theta, theta)
+
+    vertices = np.ascontiguousarray(xyz)
+
+    return vertices, sphere_triangles
