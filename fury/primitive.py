@@ -674,8 +674,22 @@ def prim_frustum():
     return vertices, triangles
 
 
-def prim_torus(roundness=(1,1)):
+def prim_torus(roundness=(1,1), sphere_name='symmetric362'):
     """Provide vertices and triangles of a torus.
+
+    Parameters
+    ----------
+    roundness : tuple, optional
+        parameters (Phi and Theta) that control the shape of the torus
+
+    sphere_name : str, optional
+        which sphere - one of:
+        * 'symmetric362'
+        * 'symmetric642'
+        * 'symmetric724'
+        * 'repulsion724'
+        * 'repulsion100'
+        * 'repulsion200'
 
     Returns
     -------
@@ -689,25 +703,26 @@ def prim_torus(roundness=(1,1)):
     _, sphere_phi, sphere_theta = cart2sphere(*sphere_verts.T)
 
     def c_func(w, m):
-        #Calculates a constant c for torus triangluation
+        '''Calculates a function c for torus triangluation'''
         return np.sign(np.cos(w))*np.abs(np.cos(w))**m
 
 
     def s_func(w, m):
-        #Calculates a constant s for torus triangulation
+        '''Calculates a function s for torus triangulation'''
         return np.sign(np.sin(w))*np.abs(np.sin(w))**m
 
 
     def c_t_func(w, m):
+        '''Calculates a function for torus triangulation using radius 2'''
         return 2+c_func(w, m)
 
 
     phi, theta = roundness
 
-    a_radius = 2
     x = c_t_func(sphere_theta, theta) * c_func(sphere_phi, phi)
     y = c_t_func(sphere_theta, theta) * s_func(sphere_phi, phi)
     z = s_func(sphere_theta, theta)
+    xyz = np.vstack([x, y, z]).T
 
     vertices = np.ascontiguousarray(xyz)
 
