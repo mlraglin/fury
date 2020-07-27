@@ -674,8 +674,8 @@ def prim_frustum():
     return vertices, triangles
 
 
-def prim_torus(roundness=(1,1), sphere_name='symmetric362'):
-    """Provide vertices and triangles of a torus.
+def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric362'):
+    """Provide vertices of a torus.
 
     Parameters
     ----------
@@ -695,8 +695,6 @@ def prim_torus(roundness=(1,1), sphere_name='symmetric362'):
     -------
     vertices: ndarray
         vertices coords that composed the torus
-    triangles: ndarray
-        triangles that composed the torus
     """
 
     sphere_verts, sphere_triangles = prim_sphere(sphere_name)
@@ -724,6 +722,13 @@ def prim_torus(roundness=(1,1), sphere_name='symmetric362'):
     z = s_func(sphere_theta, theta)
     xyz = np.vstack([x, y, z]).T
 
-    vertices = np.ascontiguousarray(xyz)
+    neg_x = -x
+    neg_xyz = np.vstack([neg_x, y, z]).T
 
-    return vertices, sphere_triangles
+    verts = np.ascontiguousarray(xyz)
+    neg_verts = np.ascontiguousarray(neg_xyz)
+    # only visualizing half of the torus, trying to get the other half visualized too?
+
+    vertices = np.concatenate((verts, neg_verts))
+
+    return vertices
