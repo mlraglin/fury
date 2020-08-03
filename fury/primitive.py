@@ -674,7 +674,7 @@ def prim_frustum():
     return vertices, triangles
 
 
-def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric362'):
+def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric642'):
     """Provide vertices of a torus.
 
     Parameters
