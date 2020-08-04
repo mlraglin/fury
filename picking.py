@@ -11,16 +11,14 @@ selected = np.zeros(1, dtype=np.bool)
 scene = window.Scene()
 sphere_actor = actor.get_actor_from_primitive(vertices, triangles, colors)
 
-v_colors = utils.colors_from_actor(sphere_actor, 'colors')
-scene.add(sphere_actor)
-
-pickm = pick.PickingManager()
-
 vertices = utils.vertices_from_actor(sphere_actor)
 num_vertices = vertices.shape[0]
 num_objects = centers.shape[0]
 
 vcolors = utils.colors_from_actor(sphere_actor, 'colors')
+scene.add(sphere_actor)
+
+pickm = pick.PickingManager()
 
 def left_click_callback(obj, event):
     event_pos = pickm.event_position(showm.iren)
@@ -33,7 +31,7 @@ def left_click_callback(obj, event):
     sec = np.int(num_vertices / num_objects)
 
     if not selected[object_index]:
-        color_add = np.array([0.0, 0.0, 0.0])
+        color_add = np.array([0.5, 0.0, 0.0])
         selected[object_index] = True
     else:
         color_add = np.array([-0.5, 0.0, 0.75])
@@ -51,6 +49,7 @@ showm = window.ShowManager(scene,
                            size=(900, 768), reset_camera=False,
                            order_transparent=True)
 showm.initialize()
+
 interactive = True
 if interactive:
     showm.start
