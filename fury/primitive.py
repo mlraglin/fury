@@ -703,6 +703,12 @@ def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric642'):
     sphere_verts, sphere_triangles = prim_sphere(sphere_name)
     _, sphere_phi, sphere_theta = cart2sphere(*sphere_verts.T)
 
+    print(sphere_phi.size)
+
+    neg_sphere_phi = np.ndarray((642, 1))
+    neg_sphere_phi[:,0] = sphere_phi[:,0]*-1.0
+    sphere_phi = np.vstack([neg_sphere_phi, sphere_phi]).T
+
     def c_func(w, m):
         '''Calculates a function c for torus triangluation'''
         return np.sign(np.cos(w))*np.abs(np.cos(w))**m
@@ -727,8 +733,6 @@ def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric642'):
 
     verts = np.ascontiguousarray(xyz)
 
-    vertices = np.concatenate((verts))
-
     faces = faces_from_sphere_vertices(verts)
 
-    return vertices, faces
+    return verts, faces
