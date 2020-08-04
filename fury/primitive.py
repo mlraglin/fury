@@ -695,6 +695,9 @@ def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric642'):
     -------
     vertices: ndarray
         vertices coords that composed the torus
+
+    facesL ndarray
+        faces that compose the torus
     """
 
     sphere_verts, sphere_triangles = prim_sphere(sphere_name)
@@ -722,13 +725,10 @@ def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric642'):
     z = s_func(sphere_theta, theta)
     xyz = np.vstack([x, y, z]).T
 
-    neg_x = -x
-    neg_xyz = np.vstack([neg_x, y, z]).T
-
     verts = np.ascontiguousarray(xyz)
-    neg_verts = np.ascontiguousarray(neg_xyz)
-    # only visualizing half of the torus, trying to get the other half visualized too?
 
-    vertices = np.concatenate((verts, neg_verts))
+    vertices = np.concatenate((verts))
 
-    return vertices
+    faces = faces_from_sphere_vertices(verts)
+
+    return vertices, faces
