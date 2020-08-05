@@ -701,7 +701,7 @@ def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric642'):
     """
 
     sphere_verts, sphere_triangles = prim_sphere(sphere_name)
-    _, sphere_phi, sphere_theta = cart2sphere(*sphere_verts.T)
+    _, sphere_theta, sphere_phi = cart2sphere(*sphere_verts.T)
 
     def c_func(w, m):
         '''Calculates a function c for torus triangluation'''
