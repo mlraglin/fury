@@ -730,5 +730,6 @@ def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric362'):
 
     vertices = np.vstack([xyz, neg_xyz])
     verts = np.ascontiguousarray(vertices)
+    #vertices do not successfully triangulate
 
     return verts
