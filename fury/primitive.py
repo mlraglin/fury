@@ -674,7 +674,7 @@ def prim_frustum():
     return vertices, triangles
 
 
-def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric642'):
+def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric362'):
     """Provide vertices of a torus.
 
     Parameters
@@ -725,8 +725,10 @@ def prim_torus_vertices(roundness=(1,1), sphere_name='symmetric642'):
     z = s_func(sphere_theta, theta)
     xyz = np.vstack([x, y, z]).T
 
-    verts = np.ascontiguousarray(xyz)
+    neg_z = z * -1
+    neg_xyz = np.vstack([x, y, neg_z]).T
 
-    faces = faces_from_sphere_vertices(verts)
+    vertices = np.vstack([xyz, neg_xyz])
+    verts = np.ascontiguousarray(vertices)
 
-    return verts, faces
+    return verts
